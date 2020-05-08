@@ -69,6 +69,7 @@ var objContains = function (obj, prop, value) {
 // [Para más información del método: https://developer.mozilla.org/es/docs/Web/JavaScript/Referencia/Objetos_globales/Array/isArray]
 
 var countArray = function (array) {
+
   if (!array.length) return 0;
   for (var i = 0; i < array.length; i++) {
     if (Array.isArray(array[i])) countArray(array[i])
@@ -172,7 +173,17 @@ LinkedList.prototype.addInPos = function (pos, value) {
 //    Lista nueva luego de aplicar el reverse: Head --> 13 --> 10 --> 4 --> 1 --> null
 
 LinkedList.prototype.reverse = function () {
-
+var prev = null,
+    nodo = this.head,
+    tmp;
+  while (nodo) {
+    tmp = nodo.next;
+    nodo.next = prev;
+    prev = nodo;
+    nodo = tmp;
+  }
+  this.head = prev;
+  return this;
 }
 
 
@@ -202,37 +213,23 @@ LinkedList.prototype.reverse = function () {
 //    - mazoUserA = [2,10,11]
 //    - mazoUserB = [6,9,10,3,6,4]
 
-var cardGame = function (mazoUserA, mazoUserB) {
-  var mA=0;
-  var mB=0;
-        if(mazoUserA.length ===0 && mazoUserB.length===0){
-          return "Game tie!"
-        }
-        if(mazoUserA.length === 0){
-            return "B wins!";
-        }else if(mazoUserB.length === 0){
-            return "A wins!";
-        }
-        if(mazoUserA[mA] > mazoUserB[mB]){
-          mazoUserA.push(mazoUserA[mA]);
-          mazoUserA.shift();
-          mazoUserA.push(mazoUserB[mB]);
-          mazoUserB.shift();
-          return cardGame(mazoUserA, mazoUserB);
-        }
-        if(mazoUserB[mB] > mazoUserA[mA]){
-          mazoUserB.push(mazoUserB[mB]);
-          mazoUserB.shift();
-          mazoUserB.push(mazoUserA[mA]);
-          mazoUserA.shift();
-          return cardGame(mazoUserA, mazoUserB);
-        }
-        if(mazoUserA[mA]=== mazoUserB[mB]){
-          mazoUserB.shift();
-          mazoUserA.shift();
-          return cardGame(mazoUserA, mazoUserB);
-        }
-
+var cardGame = function(mazoUserA, mazoUserB){
+  while(mazoUserA.size() !== 0 || mazoUserB.size() !== 0){
+    if(mazoUserA.size() === 0) return "B wins!"
+    if(mazoUserB.size() === 0) return "A wins!"
+  var gamerA = mazoUserA.dequeue();
+  var gamerB = mazoUserB.dequeue();
+    if(gamerA === gamerB) continue;
+    if(gamerA > gamerB){
+        mazoUserA.enqueue(gamerA);
+        mazoUserA.enqueue(gamerA);
+    }
+    if(gamerA < gamerB){
+        mazoUserB.enqueue(gamerB);
+        mazoUserB.enqueue(gamerB);
+    }
+}
+if(mazoUserA.size() === 0 && mazoUserB.size() === 0 ) return "Game tie!"
 }
 
 // ---------------
@@ -255,15 +252,13 @@ var cardGame = function (mazoUserA, mazoUserB) {
 //       5
 
 var generateBST = function (array) {
-  this.value = value;
-  this.left = null;
-  this.right = null;
-  var nodo = new BinarySearchTree(array);
-  for (let i = 0; i < array.length; i++) {
-    nodo = array[i];
-
+  var BST = new BinarySearchTree(array[0]);
+  for (var i = 1; i < array.length; i++) {
+    BST.insert(array[i]);
   }
+  return BST;
 }
+
 
 
 // ---------------
