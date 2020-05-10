@@ -173,7 +173,17 @@ LinkedList.prototype.addInPos = function (pos, value) {
 //    Lista nueva luego de aplicar el reverse: Head --> 13 --> 10 --> 4 --> 1 --> null
 
 LinkedList.prototype.reverse = function () {
-
+  var link = this;
+  var nuevo = new LinkedList();
+var nodoActual = this.head.next;
+  var nodoPrevious = this.head;
+while(link.size() >0){
+  if(nodoActual.next === null) nuevo.add(link.remove());
+  nodoPrevious = nodoActual;
+      if(nodoActual.next) nodoActual = nodoActual.next;
+}
+  return nuevo;
+    
 }
 
 
@@ -349,7 +359,7 @@ function closureSum(numFijo) {
 //    console.log(anagrams); // [ 'abc', 'acb', 'bac', 'bca', 'cab', 'cba' ]
 
 var allAnagrams = function (string, array, index) {
-
+  
 
 };
 
